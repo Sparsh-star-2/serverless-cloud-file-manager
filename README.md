@@ -300,15 +300,15 @@ Lambda execution logs were verified using CloudWatch.
 
 Screenshots demonstrating the implementation are available in the `screenshots/` directory.
 
-Recommended screenshots include:
+screenshots include:
 
-1. Application interface
-2. File successfully uploaded
-3. S3 bucket containing uploaded files
-4. Lambda function configuration
-5. API Gateway configuration
-6. IAM execution role
-7. CloudWatch Lambda logs
+Application interface
+File successfully uploaded
+S3 bucket containing uploaded files
+Lambda function configuration
+API Gateway configuration
+IAM execution role
+CloudWatch Lambda logs
 
 ---
 
@@ -377,5 +377,3 @@ AWS | Cloud | DevOps | Python
 ⭐ If you find this project useful, feel free to explore the repository and the implementation.
 
 
-That makes this project feel like a natural next stage rather than just another standalone AWS demo.
-```
