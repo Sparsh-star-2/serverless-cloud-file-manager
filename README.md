@@ -238,23 +238,19 @@ This makes it possible to identify problems when API requests or file operations
 ```text
 serverless-cloud-file-manager/
 │
+├── Lambda/
+│   └── lambda_function.py
+│
+├── demo/
+│   └── serverless-file-manager-demo.mp4
+│
 ├── frontend/
 │   ├── index.html
 │   ├── style.css
 │   └── script.js
 │
-├── lambda/
-│   └── lambda_function.py
-│
 ├── screenshots/
-│   ├── application.png
-│   ├── s3-bucket.png
-│   ├── lambda.png
-│   ├── api-gateway.png
-│   └── cloudwatch.png
-│
-├── demo/
-│   └── serverless-file-manager-demo.mp4
+│   └── ...
 │
 └── README.md
 ```
