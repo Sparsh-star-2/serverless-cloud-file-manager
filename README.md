@@ -253,6 +253,9 @@ serverless-cloud-file-manager/
 │   ├── api-gateway.png
 │   └── cloudwatch.png
 │
+├── demo/
+│   └── serverless-file-manager-demo.mp4
+│
 └── README.md
 ```
 
