@@ -250,7 +250,11 @@ serverless-cloud-file-manager/
 │   └── script.js
 │
 ├── screenshots/
-│   └── ...
+│   ├── application.png
+│   ├── s3-bucket.png
+│   ├── lambda.png
+│   ├── api-gateway.png
+│   └── cloudwatch.png
 │
 └── README.md
 ```
