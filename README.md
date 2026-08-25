@@ -353,22 +353,6 @@ The project also provided practical experience in **serverless application devel
 
 ---
 
-## 🔮 Future Improvements
-
-Possible future enhancements include:
-
-* 🔐 User authentication with Amazon Cognito
-* 📁 Folder-based file organization
-* 🔎 File search and filtering
-* 📊 File size and storage statistics
-* 🔗 Pre-signed S3 URLs
-* 🌐 CloudFront integration
-* 📈 Advanced CloudWatch monitoring
-* 🛡️ More granular IAM permissions
-* 📱 Improved responsive design
-
----
-
 ## 👨‍💻 Author
 
 **Sparsh Jambhulkar**
