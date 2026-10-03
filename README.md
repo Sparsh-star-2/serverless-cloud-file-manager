@@ -1,137 +1,175 @@
+# Serverless Cloud File Manager
 
-# 🚀 Serverless Cloud File Manager
+**Serverless Cloud File Manager** is a serverless web-based file management application built using **AWS Lambda, Amazon API Gateway, Amazon S3, IAM, and CloudWatch**.
 
-A serverless cloud-based file management application built using **AWS Lambda, API Gateway, Amazon S3, IAM, and CloudWatch**.
+The application provides a web interface for managing files stored in Amazon S3, allowing users to **upload, list, download, and delete files** without requiring a continuously running backend server.
 
-The application provides a web-based interface for managing files stored in Amazon S3, allowing users to **upload, view, download, and delete files** without requiring a traditional backend server.
-
-This project demonstrates the use of a **serverless AWS architecture** and the transition from traditional EC2-based infrastructure to managed cloud services.
+The project demonstrates a practical **serverless AWS architecture**, where managed AWS services handle API requests, backend processing, file storage, permissions, and monitoring.
 
 ---
 
 ## 📌 Project Overview
 
-The objective of this project was to build a lightweight and practical cloud file management system using AWS serverless services.
+The project was built to demonstrate how a lightweight file management application can be implemented using AWS serverless services instead of traditional EC2-based backend infrastructure.
 
-Instead of running a continuously active backend server, the application uses **API Gateway and AWS Lambda** to process requests and **Amazon S3** to store files.
+The application uses **Amazon API Gateway** to expose REST API endpoints, **AWS Lambda** to process requests, and **Amazon S3** to store files.
 
-### Supported Operations
+### 👤 User / File Management Interface
 
-- 📤 Upload files to Amazon S3
-- 📋 List stored files
-- 📥 Download files
-- 🗑️ Delete files
-- 🌐 Manage files through a web interface
-- 🔐 Use IAM permissions for AWS service access
-- 📊 Monitor backend execution using CloudWatch
+Users can:
+
+* Access the file management interface through a web browser
+* Upload files
+* View stored files
+* Download files
+* Delete files
+* Manage files stored in Amazon S3
+
+### ⚙️ Backend Processing
+
+The serverless backend:
+
+* Receives API requests through API Gateway
+* Invokes the Lambda function
+* Processes file operations using Python
+* Communicates with Amazon S3 using `boto3`
+* Returns responses to the frontend
 
 ---
 
-## 🏗️ Architecture
+# 🏗️ Architecture
 
 ```text
-                         👤 USER
-                            │
-                            ▼
-                 ┌────────────────────┐
-                 │      Frontend      │
-                 │    HTML / CSS / JS │
-                 └─────────┬──────────┘
-                           │
-                           │ HTTP Requests
-                           ▼
-                 ┌────────────────────┐
-                 │    API Gateway     │
-                 │      REST API      │
-                 └─────────┬──────────┘
-                           │
-                           ▼
-                 ┌────────────────────┐
-                 │       Lambda       │
-                 │   Python Backend   │
-                 └─────────┬──────────┘
-                           │
-                           │ AWS SDK
-                           ▼
-                 ┌────────────────────┐
-                 │    Amazon S3       │
-                 │   File Storage     │
-                 └────────────────────┘
+                         ┌──────────────────────────┐
+                         │         End User         │
+                         │     Browser / Client     │
+                         └────────────┬─────────────┘
+                                      │
+                                      ▼
+                         ┌──────────────────────────┐
+                         │        Frontend          │
+                         │     HTML / CSS / JS      │
+                         └────────────┬─────────────┘
+                                      │
+                                      │ HTTP Requests
+                                      ▼
+                         ┌──────────────────────────┐
+                         │     Amazon API Gateway   │
+                         │         REST API         │
+                         └────────────┬─────────────┘
+                                      │
+                                      ▼
+                         ┌──────────────────────────┐
+                         │       AWS Lambda         │
+                         │     Python / boto3       │
+                         └────────────┬─────────────┘
+                                      │
+                                      │ AWS SDK
+                                      ▼
+                         ┌──────────────────────────┐
+                         │       Amazon S3          │
+                         │       File Storage       │
+                         └──────────────────────────┘
 
-                 ┌────────────────────┐
-                 │       IAM          │
-                 │  Access Control    │
-                 └────────────────────┘
 
-                 ┌────────────────────┐
-                 │    CloudWatch      │
-                 │  Logs & Monitoring │
-                 └────────────────────┘
-````
+                         ┌──────────────────────────┐
+                         │        AWS IAM           │
+                         │   Access & Permissions   │
+                         └──────────────────────────┘
 
----
-
-## ☁️ AWS Services Used
-
-| AWS Service            | Purpose                                 |
-| ---------------------- | --------------------------------------- |
-| **AWS Lambda**         | Serverless backend processing           |
-| **Amazon API Gateway** | REST API endpoint for frontend requests |
-| **Amazon S3**          | Cloud-based file storage                |
-| **AWS IAM**            | Permissions and access control          |
-| **Amazon CloudWatch**  | Lambda logs and monitoring              |
-
----
-
-## ⚙️ How It Works
-
-The application follows a simple request-based serverless architecture.
-
-### 1. User Interaction
-
-The user interacts with the web interface using a browser.
-
-The frontend provides controls for:
-
-```text
-Upload
-List Files
-Download
-Delete
+                         ┌──────────────────────────┐
+                         │     Amazon CloudWatch    │
+                         │    Logs & Monitoring     │
+                         └──────────────────────────┘
 ```
 
-### 2. API Request
-
-When a user performs an operation, the frontend sends an HTTP request to **API Gateway**.
-
-Example:
+### Serverless Request Flow
 
 ```text
+User
+ │
+ ▼
 Frontend
-   │
-   ▼
-POST /upload
-```
-
-### 3. Lambda Processing
-
-API Gateway invokes the Lambda function.
-
-Lambda processes the request using Python and communicates with Amazon S3.
-
-```text
+ │
+ │ HTTP Request
+ ▼
 API Gateway
-     │
-     ▼
+ │
+ ▼
 Lambda
-     │
-     ▼
+ │
+ │ boto3
+ ▼
 Amazon S3
+ │
+ ▼
+Lambda Response
+ │
+ ▼
+API Gateway
+ │
+ ▼
+Frontend
 ```
 
-### 4. File Storage
+---
 
-Files are stored as objects inside an Amazon S3 bucket.
+# ☁️ AWS Infrastructure
+
+The project uses the following AWS services:
+
+| AWS Service            | Purpose                                             |
+| ---------------------- | --------------------------------------------------- |
+| **AWS Lambda**         | Executes the serverless backend logic               |
+| **Amazon API Gateway** | Provides REST API endpoints for file operations     |
+| **Amazon S3**          | Stores uploaded files as objects                    |
+| **AWS IAM**            | Controls Lambda permissions and AWS resource access |
+| **Amazon CloudWatch**  | Provides Lambda logs and monitoring                 |
+
+The architecture does not require a continuously running EC2 backend server for request processing.
+
+---
+
+# 🛠️ Technology Stack
+
+## Frontend
+
+* HTML5
+* CSS3
+* JavaScript
+
+## Backend
+
+* Python
+* AWS Lambda
+* AWS SDK for Python (`boto3`)
+
+## Cloud & Infrastructure
+
+* Amazon S3
+* Amazon API Gateway
+* AWS IAM
+* Amazon CloudWatch
+
+## Development
+
+* Git
+* GitHub
+
+---
+
+# ✨ Key Features
+
+## 📁 File Management
+
+The application supports the following file operations:
+
+* Upload files
+* List stored files
+* Download files
+* Delete files
+
+The files are stored as objects inside an Amazon S3 bucket.
 
 Example:
 
@@ -144,96 +182,163 @@ S3 Bucket
 └── project.zip
 ```
 
-### 5. Response
+---
 
-Lambda returns the result to API Gateway, which sends the response back to the frontend.
+# 📤 File Upload
+
+Users can upload files through the web interface.
+
+The request follows this flow:
 
 ```text
-S3
+User
+  │
+  ▼
+Upload File
+  │
+  ▼
+Frontend
+  │
+  ▼
+POST Request
+  │
+  ▼
+API Gateway
+  │
+  ▼
+Lambda
+  │
+  ▼
+Amazon S3
+```
+
+Lambda processes the request using Python and `boto3`, and the uploaded file is stored in Amazon S3.
+
+---
+
+# 📋 File Listing
+
+The frontend can request the files stored in the S3 bucket.
+
+```text
+Frontend
+   │
+   ▼
+API Gateway
+   │
+   ▼
+Lambda
+   │
+   ▼
+Amazon S3
+   │
+   ▼
+Stored Files
+   │
+   ▼
+Frontend
+```
+
+The retrieved files are displayed through the web interface.
+
+---
+
+# 📥 File Download
+
+Users can download files stored in Amazon S3 through the application.
+
+The request is processed through the serverless backend before the file is returned to the user.
+
+```text
+User
  │
  ▼
-Lambda
+Frontend
  │
  ▼
 API Gateway
  │
  ▼
-Frontend
+Lambda
+ │
+ ▼
+Amazon S3
+ │
+ ▼
+File Response
 ```
 
 ---
 
-## 🔌 API Operations
+# 🗑️ File Deletion
+
+Users can delete selected files through the web interface.
+
+```text
+Frontend
+   │
+   ▼
+DELETE Request
+   │
+   ▼
+API Gateway
+   │
+   ▼
+Lambda
+   │
+   ▼
+Amazon S3
+```
+
+Lambda performs the required S3 operation using its assigned IAM permissions.
+
+---
+
+# 🔌 REST API
 
 The backend provides API operations for file management.
 
-| Operation | Purpose           |
-| --------- | ----------------- |
-| `POST`    | Upload a file     |
-| `GET`     | List stored files |
-| `GET`     | Download a file   |
-| `DELETE`  | Delete a file     |
+| HTTP Method | Operation | Purpose                |
+| ----------- | --------- | ---------------------- |
+| `POST`      | Upload    | Upload a file to S3    |
+| `GET`       | List      | Retrieve stored files  |
+| `GET`       | Download  | Retrieve a stored file |
+| `DELETE`    | Delete    | Remove a file from S3  |
 
-The frontend communicates with these API endpoints to perform file operations.
-
----
-
-## 🔐 Security & Permissions
-
-AWS IAM is used to control what the Lambda function can access.
-
-The Lambda execution role provides the required permissions to interact with the S3 bucket.
-
-The application follows the principle of **least privilege** by granting only the permissions required for the application's operations.
-
-No AWS access keys are embedded directly into the application code.
+The frontend communicates with these API endpoints through Amazon API Gateway.
 
 ---
 
-## 📊 Monitoring
+# 🔐 Security & Permissions
+
+AWS IAM is used to control access between the Lambda function and Amazon S3.
+
+The Lambda execution role provides the permissions required for the application's file-management operations.
+
+The project follows the principle of **least privilege**, granting only the permissions required by the Lambda function.
+
+AWS credentials are not embedded directly into the application code.
+
+The serverless architecture also avoids exposing an EC2 server directly to the internet because backend processing is handled through API Gateway and Lambda.
+
+---
+
+# 📊 Monitoring
 
 Amazon CloudWatch is used to monitor the Lambda backend.
 
-CloudWatch provides:
+CloudWatch provides visibility into:
 
 * Lambda execution logs
-* Error information
-* Invocation monitoring
+* Function invocations
+* Runtime errors
 * Troubleshooting information
 
-This makes it possible to identify problems when API requests or file operations fail.
+The logs can be used to investigate failures during API requests and file operations.
 
 ---
 
-## 🧰 Technologies Used
-
-### Frontend
-
-* HTML5
-* CSS3
-* JavaScript
-
-### Backend
-
-* Python
-* AWS Lambda
-* AWS SDK (`boto3`)
-
-### Cloud Services
-
-* Amazon S3
-* Amazon API Gateway
-* AWS IAM
-* Amazon CloudWatch
-
-### Development
-
-* Git
-* GitHub
-
----
-
-## 📁 Project Structure
+# 📁 Project Structure
 
 ```text
 serverless-cloud-file-manager/
@@ -263,11 +368,13 @@ serverless-cloud-file-manager/
 
 ---
 
-## 🧪 Project Testing
+# 🧪 Testing
 
-The application was tested by performing the following operations:
+The application was tested through the complete serverless request flow.
 
-### Upload
+### Upload Testing
+
+Verified that files could be uploaded through the frontend and successfully stored in Amazon S3.
 
 ```text
 Frontend
@@ -279,81 +386,190 @@ Lambda
 S3
 ```
 
-Verified that files were successfully stored in the S3 bucket.
+### List Testing
 
-### List
+Verified that files stored in S3 could be retrieved and displayed through the frontend.
 
-Verified that files stored in S3 were retrieved and displayed in the frontend.
-
-### Download
+### Download Testing
 
 Verified that stored files could be downloaded through the application.
 
-### Delete
+### Delete Testing
 
-Verified that selected files could be removed from the S3 bucket.
+Verified that selected files could be deleted from the S3 bucket.
 
-### Backend Monitoring
+### Backend Testing
 
-Lambda execution logs were verified using CloudWatch.
-
----
-
-## 📸 Screenshots
-
-Screenshots demonstrating the implementation are available in the `screenshots/` directory.
-
-screenshots include:
-
-Application interface
-File successfully uploaded
-S3 bucket containing uploaded files
-Lambda function configuration
-API Gateway configuration
-IAM execution role
-CloudWatch Lambda logs
+Lambda execution logs were verified using Amazon CloudWatch.
 
 ---
 
-## 🎯 Key Learning Outcomes
+# 📸 Screenshots
 
-Through this project, I gained hands-on experience with:
+Implementation screenshots are available in the `screenshots/` directory.
 
-* Building a serverless AWS application
-* AWS Lambda function development
-* Creating REST APIs using API Gateway
+The screenshots demonstrate:
+
+* Application interface
+* File upload
+* Uploaded files in Amazon S3
+* Lambda configuration
+* API Gateway configuration
+* IAM execution role
+* CloudWatch Lambda logs
+
+---
+
+# 💻 Local / Frontend Development
+
+The frontend consists of standard web technologies:
+
+```text
+HTML5
+CSS3
+JavaScript
+```
+
+The frontend communicates with the deployed API Gateway endpoint for file-management operations.
+
+The Lambda backend runs in AWS and is invoked through API Gateway when requests are made from the application.
+
+---
+
+# ☁️ Serverless Deployment
+
+The deployed application follows this architecture:
+
+```text
+Web Frontend
+     │
+     ▼
+Amazon API Gateway
+     │
+     ▼
+AWS Lambda
+     │
+     ▼
+Amazon S3
+```
+
+Supporting services:
+
+```text
+AWS IAM
+     │
+     └── Lambda permissions
+
+Amazon CloudWatch
+     │
+     └── Lambda logs & monitoring
+```
+
+This removes the need for a continuously running EC2 backend server.
+
+---
+
+# 🔄 Application Workflow
+
+The complete application workflow is:
+
+```text
+User
+ │
+ ▼
+Web Interface
+ │
+ ▼
+HTTP Request
+ │
+ ▼
+API Gateway
+ │
+ ▼
+AWS Lambda
+ │
+ ├──────────────► Amazon S3
+ │                    │
+ │                    ▼
+ │                File Operation
+ │
+ ▼
+Lambda Response
+ │
+ ▼
+API Gateway
+ │
+ ▼
+Frontend
+```
+
+---
+
+# 🎯 Learning Objectives
+
+This project was created to gain practical experience with:
+
+* Serverless AWS architecture
+* AWS Lambda
+* Python Lambda development
+* Amazon API Gateway
+* REST API design
 * Amazon S3 object storage
 * Connecting Lambda with S3 using `boto3`
 * IAM roles and permissions
 * CloudWatch logging
-* REST API request/response flow
 * Frontend-to-cloud communication
-* Serverless architecture
-* Git and GitHub project management
+* HTTP request/response flow
+* Serverless application development
+* Git and GitHub
 
 ---
 
-## 🚀 Project Outcome
+# 🚀 Project Outcome
 
-This project demonstrates how a traditional server-based file management application can be implemented using AWS serverless services.
+This project demonstrates how a file-management application can be implemented using AWS managed and serverless services instead of a traditional continuously running backend server.
 
-Instead of maintaining a continuously running backend server, the application uses:
+The core architecture is:
 
 ```text
 API Gateway
-     ↓
+      ↓
 Lambda
-     ↓
+      ↓
 S3
 ```
 
-This provides a simple architecture where AWS manages the underlying compute and storage infrastructure.
-
-The project also provided practical experience in **serverless application development, cloud storage, API integration, IAM permissions, and application monitoring**.
+The project provides hands-on experience with **serverless backend processing, REST API integration, cloud object storage, IAM permissions, and application monitoring**.
 
 ---
 
-## 👨‍💻 Author
+# 🚧 Future Improvements
+
+Possible future improvements include:
+
+* User authentication
+* User-specific file storage
+* File type and size validation
+* Improved API error handling
+* Pre-signed S3 URLs for file downloads
+* File metadata management
+* Improved frontend validation
+* Custom domain configuration
+* HTTPS configuration
+* Additional CloudWatch monitoring
+* More comprehensive automated testing
+
+---
+
+# 📚 Project Purpose
+
+Serverless Cloud File Manager is a portfolio and learning project focused on demonstrating practical experience with **AWS serverless services and cloud-based application architecture**.
+
+The project combines a web frontend with API Gateway, Lambda, S3, IAM, and CloudWatch to demonstrate how a complete cloud application can be built without maintaining a traditional backend server.
+
+---
+
+# 👨‍💻 Author
 
 **Sparsh Jambhulkar**
 
@@ -361,6 +577,10 @@ AWS | Cloud | DevOps | Python
 
 ---
 
-⭐ If you find this project useful, feel free to explore the repository and the implementation.
+# 📄 Project Ownership
 
+This project was independently designed and developed by **Sparsh Jambhulkar** as a personal learning and portfolio project.
 
+The application, source code, architecture, implementation, documentation, and project-specific content were created as part of the development of the Serverless Cloud File Manager.
+
+Third-party frameworks, libraries, and AWS services used by the project remain subject to their respective licenses and terms.
